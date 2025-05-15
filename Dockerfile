@@ -1,29 +1,24 @@
-# Use official Node image
-FROM node:18 as build
+# Use official Node.js image with version 20
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
+# Copy package.json and package-lock.json
 COPY package*.json ./
-RUN npm install
 
-# Copy rest of the app and build it
+# Install dependencies
+RUN npm install && npm install -g serve
+
+# Copy all app files
 COPY . .
+
+# Build the React app
 RUN npm run build
 
-# Use lightweight image to serve build
-FROM node:18-slim
-
-# Install serve globally
-RUN npm install -g serve
-
-# Copy build artifacts
-COPY --from=build /app/build /app/build
-
-# Set working directory and port
-WORKDIR /app/build
+# Expose port the app will run on
 EXPOSE 8041
 
-# Serve the app
-CMD ["serve", "-s", ".", "-l", "8041"]
+# Run the app using serve
+CMD ["serve", "-s", "build", "-l", "8041"]
+
