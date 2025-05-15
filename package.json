@@ -30,7 +30,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false PORT=8041 react-scripts build && serve -s build -l 8041",
+    "build": "GENERATE_SOURCEMAP=false PORT=8041 react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
